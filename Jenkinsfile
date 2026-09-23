@@ -10,7 +10,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "Checking out source code for ${env.APP_NAME}..."
-                // Simulating repository checkout
                 checkout scm: [
                     $class: 'GitSCM', 
                     branches: [[name: '*/main']], 
@@ -22,7 +21,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Performing compile check on app.py..."
-                // Changed from 'sh' to 'bat' for Windows compatibility
                 bat 'python -m py_compile app.py'
             }
         }
@@ -32,7 +30,6 @@ pipeline {
                 input message: "Approve deployment of ${env.APP_NAME} version ${env.APP_VERSION}?", ok: "Release"
                 
                 echo "Deploying ${env.APP_NAME} v${env.APP_VERSION}..."
-                // Changed from 'sh' to 'bat' for Windows compatibility
                 bat 'python app.py'
             }
         }
