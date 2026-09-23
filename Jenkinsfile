@@ -22,18 +22,18 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Performing compile check on app.py..."
-                // Uses python's built-in py_compile module to check syntax without running the script
-                sh 'python3 -m py_compile app.py'
+                // Changed from 'sh' to 'bat' for Windows compatibility
+                bat 'python -m py_compile app.py'
             }
         }
 
         stage('Deploy') {
             steps {
-                // Pause the pipeline for manual human intervention
                 input message: "Approve deployment of ${env.APP_NAME} version ${env.APP_VERSION}?", ok: "Release"
                 
                 echo "Deploying ${env.APP_NAME} v${env.APP_VERSION}..."
-                sh 'python3 app.py'
+                // Changed from 'sh' to 'bat' for Windows compatibility
+                bat 'python app.py'
             }
         }
     }
